@@ -1,4 +1,4 @@
-package com.excilys.cdb.dao.impl;
+package com.excilys.cdb.dao;
 
 import com.excilys.cdb.model.Company;
 
@@ -9,7 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.excilys.cdb.dao.MySQLConnection;
-import com.excilys.cdb.exceptions.DAOException;;
+import com.excilys.cdb.exceptions.DAOException;
+import com.excilys.cdb.exceptions.*;
 
 
 public class CompanyDAO {

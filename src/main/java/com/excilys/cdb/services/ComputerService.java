@@ -2,7 +2,7 @@ package com.excilys.cdb.services;
 
 import java.util.Optional;
 
-import com.excilys.cdb.dao.impl.ComputerDAO;
+import com.excilys.cdb.dao.ComputerDAO;
 import com.excilys.cdb.model.Computer;
 
 public class ComputerService {

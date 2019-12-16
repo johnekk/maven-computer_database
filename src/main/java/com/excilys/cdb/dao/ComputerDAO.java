@@ -1,4 +1,4 @@
-package com.excilys.cdb.dao.impl;
+package com.excilys.cdb.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

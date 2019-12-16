@@ -1,7 +1,7 @@
 package com.excilys.cdb.dao;
 
 import java.sql.*;
-import com.excilys.cdb.dao.exceptions.DAOConfigurationException;
+import com.excilys.cdb.exceptions.DAOConfigurationException;
 
 public class MySQLConnection {
 	
