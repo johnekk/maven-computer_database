@@ -14,8 +14,6 @@ import com.excilys.cdb.dao.MySQLConnection;;
 
 public class CompanyDAO {
 
-	private Connection connect = null;
-	private PreparedStatement statement;
 	private ResultSet res;
 	
 	private final static String FIND_ALL_COMPANIES = "SELECT ca.id, ca.name FROM company ca";
@@ -38,13 +36,9 @@ public class CompanyDAO {
 	/** END Singleton.CompanyDAO */
 	
 	public ArrayList<Company> findAllCompanies() throws DAOException {
-
 		ArrayList<Company> c = new ArrayList<>();
-	
-		try {
+		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPANIES);) {
 			/** On se connecte, on prépare la requete, on l'éxécute et on récupère le resultat*/
-			connect = MySQLConnection.getConnectionInstance();
-			statement = this.connect.prepareStatement(FIND_ALL_COMPANIES);
 			res = statement.executeQuery(FIND_ALL_COMPANIES);
 			
 			while (res.next()) {

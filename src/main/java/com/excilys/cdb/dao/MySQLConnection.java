@@ -10,25 +10,25 @@ public class MySQLConnection {
 	private static String password = "qwerty1234";
 	
 	/** Declaration de l'objet Connection */
-	private static Connection connect;
+	private static Connection connection;
 	
 	/** Méthode qui retourne notre instance*/
 	public static Connection getConnectionInstance() throws DAOConfigurationException {
-		if(connect == null) {
+		if(connection == null) {
 			try {
-				connect = DriverManager.getConnection(url, user, password);
+				connection = DriverManager.getConnection(url, user, password);
 	 		} catch (SQLException sqle) {
 				throw new DAOConfigurationException("Erreur lors de la connexion: " + sqle);
 			}	
 		}
-		return connect;
+		return connection;
 	}
 
 	
 	public static void myDeconnection() {
-		if (connect != null) {
+		if (connection != null) {
 			try {
-				connect.close();
+				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

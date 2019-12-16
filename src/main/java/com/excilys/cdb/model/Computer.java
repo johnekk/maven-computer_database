@@ -80,6 +80,5 @@ public class Computer {
 		str +=			"\n.....................................\n";
 		
 		return str;
-	}
-	
+	}	
 }
