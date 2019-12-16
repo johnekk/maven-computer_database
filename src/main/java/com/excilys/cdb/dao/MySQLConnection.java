@@ -5,7 +5,7 @@ import com.excilys.cdb.dao.exceptions.DAOConfigurationException;
 
 public class MySQLConnection {
 	
-	private static String url = "jdbc:mysql://localhost:3306/computer-database-db";
+	private static String url = "jdbc:mysql://localhost:3306/computer-database-db?useSSL=false";
 	private static String user = "admincdb";
 	private static String password = "qwerty1234";
 	

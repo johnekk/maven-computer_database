@@ -1,5 +1,7 @@
 package com.excilys.cdb.services;
 
+import java.util.Optional;
+
 import com.excilys.cdb.dao.impl.ComputerDAO;
 import com.excilys.cdb.model.Computer;
 
@@ -31,9 +33,9 @@ public class ComputerService {
 	}
 	
 	public static void findByID(int id) {
-		System.out.println(computerDAO.findComputerById(id).toString());
-		
-		
+		Optional<Computer> computer = computerDAO.findComputerById(id);
+		if (computer.isPresent())
+			System.out.println(computer.get().toString());
 	}
 	
 	public static void update(Computer computer) { 

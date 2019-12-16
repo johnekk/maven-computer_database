@@ -72,11 +72,12 @@ public class ComputerDAO {
 			res= statement.executeQuery();
 			while (res.next()) {	
 				c.add(new Computer.
-						ComputerBuilder().	setId(res.getInt("id")).
-											setName(res.getString("name")).
-											setIntroduced(res.getTimestamp("introduced")==null?null:res.getTimestamp("introduced").toLocalDateTime().toLocalDate()).
-											setdiscontinued(res.getTimestamp("discontinued")==null?null:res.getTimestamp("discontinued").toLocalDateTime().toLocalDate()).
-											setCompany(new Company.CompanyBuilder().setName(res.getString("name")).build()).build());
+						ComputerBuilder().
+						setId(res.getInt("id")).
+						setName(res.getString("name")).
+						setIntroduced(res.getTimestamp("introduced")==null?null:res.getTimestamp("introduced").toLocalDateTime().toLocalDate()).
+						setdiscontinued(res.getTimestamp("discontinued")==null?null:res.getTimestamp("discontinued").toLocalDateTime().toLocalDate()).
+						setCompany(new Company.CompanyBuilder().setName(res.getString("name")).build()).build());
 			}
 		} catch (SQLException error) {
 			throw new DAOException( error );
@@ -84,26 +85,26 @@ public class ComputerDAO {
 		return c;
 	}
 
-	public Computer findComputerById(int id) throws DAOException {
+	public Optional<Computer> findComputerById(int id) throws DAOException {
 		Computer computer = null;
-		try {
-			connect = MySQLConnection.getConnectionInstance();
-			statement = connect.prepareStatement(FIND_COMPUTER_BY_ID);
-			System.out.println("Connected !!!");
-			res= statement.executeQuery();
-			if (res.first()) {
-			computer = new Computer.ComputerBuilder().
-							setId(res.getInt("id")).
-							setName(res.getString("name")).
-							setIntroduced(res.getTimestamp("introduced")==null?null:res.getTimestamp("introduced").toLocalDateTime().toLocalDate()).
-							setdiscontinued(res.getTimestamp("discontinued")==null?null:res.getTimestamp("discontinued").toLocalDateTime().toLocalDate()).
-							setCompany(new Company.CompanyBuilder().setName(res.getString("name")).build()).build();
-			}
-		}  catch (SQLException error) {
+		try (Connection c = MySQLConnection.getConnectionInstance();
+			 PreparedStatement s = c.prepareStatement(FIND_COMPUTER_BY_ID);){	
+				s.setInt(1, id);
+				System.out.println("Connected !!!");
+				res= s.executeQuery();
+				if (res.first()) {
+					computer = new Computer.ComputerBuilder().
+					setId(res.getInt("id")).
+					setName(res.getString("name")).
+					setIntroduced(res.getTimestamp("introduced")==null?null:res.getTimestamp("introduced").toLocalDateTime().toLocalDate()).
+					setdiscontinued(res.getTimestamp("discontinued")==null?null:res.getTimestamp("discontinued").toLocalDateTime().toLocalDate()).
+					setCompany(new Company.CompanyBuilder().setName(res.getString("name")).build()).build();
+				}
+		}catch (SQLException error) {
 			throw new DAOException( error );
 		}
 		
-		return computer;
+		return Optional.ofNullable(computer);
 	}
 
 	public Computer updateComputer(Computer computer) throws DAOException {
@@ -130,6 +131,7 @@ public class ComputerDAO {
 		try {
 			connect = MySQLConnection.getConnectionInstance();
 			statement = connect.prepareStatement(DELETE_COMPUTER);
+			statement.setInt(1, id);
 			statement.executeUpdate();
 			
 			System.out.println("Computer numero " + id + " is removed!!");

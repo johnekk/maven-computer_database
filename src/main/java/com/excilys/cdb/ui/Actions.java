@@ -42,20 +42,18 @@ public class Actions {
 	}
 
 	public static void findOneCLI() {
-		System.out.println("Select ID of company :");
+		System.out.println("Select ID of computer :");
 		int computerId = sc.nextInt();
 		ComputerService.findByID(computerId);
+		
 	}
 	
 	public static void UpdateCLI() {
 	}
-/**
 	public static void DeleteCLI() {
-		
 		System.out.println("Enter the ID of the company that you want to delete: ");
 		int computerID = sc.nextInt();
-		ComputerService.delete(id);
-		
+		ComputerService.delete(computerID);
 	}
-*/
+
 }

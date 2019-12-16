@@ -42,7 +42,7 @@ public class Display {
 				ComputerService.update(null);
 				break;
 			case "6":
-				ComputerService.delete(7);
+				Actions.DeleteCLI();
 				break;
 			default:
 				System.out.println("Réponse incorrecte!! Veuillez saisir une autre réponse entre 0 et 6");
