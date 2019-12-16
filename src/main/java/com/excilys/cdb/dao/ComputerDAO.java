@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.excilys.cdb.dao.MySQLConnection;
-import com.excilys.cdb.dao.exceptions.DAOException;
+import com.excilys.cdb.exceptions.DAOException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
