@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,8 @@ public class CompanyDAO {
 	}
 	/** END Singleton.CompanyDAO */
 	
-	public ArrayList<Company> findAllCompanies() throws DAOException {
-		ArrayList<Company> cList = new ArrayList<>();
+	public List<Company> findAllCompanies() throws DAOException {
+		List<Company> cList = new ArrayList<>();
 		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPANIES);) {
 			res = statement.executeQuery(FIND_ALL_COMPANIES);
 			while (res.next()) {
