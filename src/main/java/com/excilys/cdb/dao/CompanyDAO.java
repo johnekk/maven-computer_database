@@ -8,23 +8,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.dao.MySQLConnection;
 import com.excilys.cdb.exceptions.DAOException;
-import com.excilys.cdb.exceptions.*;
+import com.excilys.cdb.mapper.CompanyMapper;
 
 
 public class CompanyDAO {
 
 	private ResultSet res;
-	
 	private final static String FIND_ALL_COMPANIES = "SELECT ca.id, ca.name FROM company ca";
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
 	/** START Singleton.CompanyDAO -- Lazy-Loading */
-
 	// Private Constructor
 	private CompanyDAO() {};
-	
 	private static CompanyDAO companyDAO = null;
+	private static CompanyMapper companyMapper = CompanyMapper.getCompanyMapper();
 	
 	// Point d'accès pour l'instance unique du singleton 
 	public static CompanyDAO getCompanyDAOInstance() {
@@ -33,23 +34,19 @@ public class CompanyDAO {
 		}
 		return companyDAO;
 	}
-	
 	/** END Singleton.CompanyDAO */
 	
 	public ArrayList<Company> findAllCompanies() throws DAOException {
-		ArrayList<Company> c = new ArrayList<>();
+		ArrayList<Company> cList = new ArrayList<>();
 		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPANIES);) {
-			/** On se connecte, on prépare la requete, on l'éxécute et on récupère le resultat*/
 			res = statement.executeQuery(FIND_ALL_COMPANIES);
-			
 			while (res.next()) {
-				c.add( new Company.CompanyBuilder().setName(res.getString("name")).build());
+				cList.add(companyMapper.ResultSetToCompany(res)); 
 			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DAOException( e );
+		} catch (SQLException error) {
+			LOGGER.error(error.getMessage());
+			throw new DAOException( error );
 		}
-		return c;
+		return cList;
 	}
 }
