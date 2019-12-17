@@ -23,15 +23,4 @@ public class MySQLConnection {
 		}
 		return connection;
 	}
-
-	
-	public static void myDeconnection() {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }
