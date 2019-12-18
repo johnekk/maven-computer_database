@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.model.Computer.ComputerBuilder;
 
 class ComputerDAOTest {
 
 	private ComputerDAO computerDao = ComputerDAO.getComputerDAOInstance();
-	private CompanyDAO companyDao = CompanyDAO.getCompanyDAOInstance();
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAOTest.class);	
 	
 	@BeforeAll
@@ -49,11 +48,11 @@ class ComputerDAOTest {
 		assertEquals(computers.size(), 15);
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
+
 	@Test
 	void testFindComputerById() {
 		Computer computer = computerDao.findComputerById(1).get();
-		equals(computer.isEqualTo(new Computer(1, "Apple Inc.", null, null, null )));
+		assertEquals(computer.getId(), 1);
 	}
 
 	@Test
@@ -63,7 +62,13 @@ class ComputerDAOTest {
 
 	@Test
 	void testDeleteComputer() {
-		computerDao.deleteComputer(0);
+		computerDao.deleteComputer(16);
+	}
+	
+	@AfterEach
+	void afterEach() {
+		LOGGER.info("@AfterEach "); 
+		System.setProperty("test","false");
 	}
 
 }
