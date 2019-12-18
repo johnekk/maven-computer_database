@@ -40,7 +40,7 @@ public class CompanyDAO {
 	public List<Company> findAllCompanies() throws DAOException {
 		List<Company> cList = new ArrayList<>();
 		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPANIES);) {
-			res = statement.executeQuery(FIND_ALL_COMPANIES);
+			res = statement.executeQuery();
 			while (res.next()) {
 				cList.add(companyMapper.ResultSetToCompany(res)); 
 			}

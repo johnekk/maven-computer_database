@@ -1,6 +1,8 @@
 package com.excilys.cdb.dao;
 
 import java.sql.*;
+
+
 import com.excilys.cdb.exceptions.DAOConfigurationException;
 
 public class MySQLConnection {
@@ -12,15 +14,31 @@ public class MySQLConnection {
 	/** Declaration de l'objet Connection */
 	private static Connection connection;
 	
-	/** Méthode qui retourne notre instance*/
-	public static Connection getConnectionInstance() throws DAOConfigurationException {
-		if(connection == null) {
-			try {
-				connection = DriverManager.getConnection(url, user, password);
-	 		} catch (SQLException sqle) {
-				throw new DAOConfigurationException("Erreur lors de la connexion: " + sqle);
-			}	
+	private static Connection connect = null;
+		
+	
+	/** Méthode qui retourne notre instance
+	 * @throws SQLException */
+	public static Connection getConnectionInstance() throws DAOConfigurationException, SQLException {
+		if(System.getProperty("test") != null && System.getProperty("test").equals("true")) {
+			String urlTest ="jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:C&E.sql'";
+			String userTest = "";
+			String passwdTest = "";
+			System.out.println("Connexion database h2 ");
+			if(connect == null || connect.isClosed()) {
+				connect = DriverManager.getConnection(urlTest, userTest, passwdTest);
+			} else {
+				System.out.println("Connexion database MySQL ");
+				if(connection == null) {
+					try {
+						connection = DriverManager.getConnection(url, user, password);
+					} catch (SQLException sqle) {
+						throw new DAOConfigurationException("Erreur lors de la connexion: " + sqle);
+					}	
+				}
+				return connection;
+			}
 		}
-		return connection;
+		return connect;
 	}
 }

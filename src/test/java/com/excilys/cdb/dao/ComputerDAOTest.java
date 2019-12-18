@@ -1,38 +1,38 @@
-package com.excilys.cdb.services;
+package com.excilys.cdb.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComputerServiceTest {
+class ComputerDAOTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
 	}
 
 	@Test
-	void testCreate() {
+	void testCreateComputer() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testFindAll() {
+	void testFindAllComputers() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testFindByID() {
+	void testFindComputerById() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testUpdate() {
+	void testUpdateComputer() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testDelete() {
+	void testDeleteComputer() {
 		fail("Not yet implemented");
 	}
 
