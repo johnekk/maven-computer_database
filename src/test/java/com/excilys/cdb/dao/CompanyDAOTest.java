@@ -30,10 +30,6 @@ class CompanyDAOTest {
 		System.setProperty("test","true");
 		LOGGER.info("@beforeEach");	
 	}
-	
-	@BeforeEach
-	void setUp() throws Exception {
-	}
 
 	@Test
 	void testFindAllCompanies() {

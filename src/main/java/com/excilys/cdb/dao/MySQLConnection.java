@@ -29,7 +29,7 @@ public class MySQLConnection {
 				connect = DriverManager.getConnection(urlTest, userTest, passwdTest);
 			} else {
 				System.out.println("Connexion database MySQL ");
-				if(connection == null) {
+				if(connection == null || connect.isClosed() ) {
 					try {
 						connection = DriverManager.getConnection(url, user, password);
 					} catch (SQLException sqle) {

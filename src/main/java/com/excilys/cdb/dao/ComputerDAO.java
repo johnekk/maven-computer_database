@@ -20,8 +20,8 @@ public class ComputerDAO {
 	
 	private final static String CREATE_COMPUTER 	= "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 
-	private final static String FIND_ALL_COMPUTERS 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name AS 'Name of company' FROM computer, company WHERE company.id = computer.company_id";
-	private final static String FIND_COMPUTER_BY_ID = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name AS 'Name of company' FROM computer, company WHERE company.id = computer.company_id AND computer.id = ?";
+	private final static String FIND_ALL_COMPUTERS 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer, company WHERE company.id = computer.company_id";
+	private final static String FIND_COMPUTER_BY_ID = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer, company WHERE company.id = computer.company_id AND computer.id = ?";
 
 	private final static String UPDATE_COMPUTER 	= "UPDATE computer SET name = ?, introduce = ?, discontinued = ?, company_id = ? WHERE id = ?";
 

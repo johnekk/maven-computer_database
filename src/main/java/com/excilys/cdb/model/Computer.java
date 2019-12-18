@@ -80,5 +80,10 @@ public class Computer {
 		str +=			"\n.....................................\n";
 		
 		return str;
+	}
+
+	public short isEqualTo(Computer computer) {
+		// TODO Auto-generated method stub
+		return 0;
 	}	
 }
