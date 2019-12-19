@@ -23,7 +23,8 @@
     <junit-jupiter-api.version>5.5.2</junit-jupiter-api.version>
     <junit.platform.version>1.5.2</junit.platform.version>
     <servlet-api.version>2.5</servlet-api.version>
-    <mysql-connector-java.version>5.1.39</mysql-connector-java.version>    
+    <mysql-connector-java.version>5.1.39</mysql-connector-java.version> 
+    <jstl.version>1.2</jstl.version>   
     
   </properties>
 	<!-- END Declaration version of dependencies -->
@@ -99,6 +100,12 @@
 <!-- use 2.9.1 for Java 7 projects -->
 		<version>3.11.1</version>
 		<scope>test</scope>
+	</dependency>
+	
+	<dependency>
+	    <groupId>jstl</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>${jstl.version}</version>
 	</dependency>
     <!-- END declaration of dependencies -->
   </dependencies>
