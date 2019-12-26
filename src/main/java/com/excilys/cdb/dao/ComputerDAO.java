@@ -18,14 +18,34 @@ public class ComputerDAO {
 	
 	private ResultSet res;
 	
-	private final static String CREATE_COMPUTER 	= "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
+	private final static String CREATE_COMPUTER 	= "	INSERT INTO computer (name, introduced, discontinued, company_id)"
+													+ "	VALUES (?,?,?,?)";
 
-	private final static String FIND_ALL_COMPUTERS 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer, company WHERE company.id = computer.company_id";
-	private final static String FIND_COMPUTER_BY_ID = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer, company WHERE company.id = computer.company_id AND computer.id = ?";
+	
+	private final static String FIND_ALL_COMPUTERS 	= "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
+													+ "	FROM computer, company WHERE company.id = computer.company_id";
+	
+	private final static String FIND_COMPUTER_BY_ID = "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
+													+ "	FROM computer, company"
+													+ "	WHERE company.id = computer.company_id"
+													+ "	AND computer.id = ?";
+	
+	private final static String FIND_COMPUTERS_BY_COMPANY	= "	SELECT computer.id, computer.name, compter.introduced, computer.discontinued"
+															+ "	FROM computer"
+															+ "	WHERE computer.company_id = ?";
+		
+	private final static String FIND_NUMBER_OF_COMPUTER	= "	SELECT count(computer.id)"
+														+ "	FROM computer";
+	
+	
+	private final static String UPDATE_COMPUTER = "	UPDATE computer"
+												+ "	SET name = ?, introduce = ?, discontinued = ?, company_id = ?"
+												+ "	WHERE id = ?";
 
-	private final static String UPDATE_COMPUTER 	= "UPDATE computer SET name = ?, introduce = ?, discontinued = ?, company_id = ? WHERE id = ?";
-
-	private final static String DELETE_COMPUTER 	= "DELETE FROM computer WHERE id = ?";
+	
+	private final static String DELETE_COMPUTER = "	DELETE "
+												+ "	FROM computer"
+												+ "	WHERE id = ?";
 	
 	/** START Singleton.CompanyDAO -- Lazy-Loading */
 
@@ -74,6 +94,18 @@ public class ComputerDAO {
 			throw new DAOException( error );
 		}
 		return c;
+	}
+	
+	public int findNumberOfComputers() throws DAOException {
+		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_NUMBER_OF_COMPUTER);) {
+			res = statement.executeQuery();
+			if (res.first()) {
+				return res.getInt("nbComputer");
+			}
+		} catch (SQLException error) {
+			throw new DAOException( error );
+		}
+		return 0;
 	}
 
 	

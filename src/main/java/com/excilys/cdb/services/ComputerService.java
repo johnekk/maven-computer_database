@@ -1,5 +1,6 @@
 package com.excilys.cdb.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.excilys.cdb.dao.ComputerDAO;
@@ -26,10 +27,11 @@ public class ComputerService {
 		computerDAO.createComputer(computer);
 	}
 	
-	public static void findAll() {
+	public static List<Computer> findAll() {
 		for(Computer computer : computerDAO.findAllComputers()) {
 			System.out.println(computer.toString());
 		}
+		return computerDAO.findAllComputers();
 	}
 	
 	public static void findByID(int id) {
