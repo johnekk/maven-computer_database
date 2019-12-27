@@ -23,16 +23,9 @@ public class ComputerService {
 	/** END Singleton.ComputerService*/
 
 	
-	public static void create(Computer computer) {
-		computerDAO.createComputer(computer);
-	}
+	public static void create(Computer computer) { computerDAO.createComputer(computer); }
 	
-	public static List<Computer> findAll() {
-		for(Computer computer : computerDAO.findAllComputers()) {
-			System.out.println(computer.toString());
-		}
-		return computerDAO.findAllComputers();
-	}
+	public static List<Computer> findAll() { return computerDAO.findAllComputers(); }
 	
 	public static void findByID(int id) {
 		Optional<Computer> computer = computerDAO.findComputerById(id);

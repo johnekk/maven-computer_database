@@ -24,7 +24,8 @@
     <junit.platform.version>1.5.2</junit.platform.version>
     <servlet-api.version>2.5</servlet-api.version>
     <mysql-connector-java.version>5.1.39</mysql-connector-java.version> 
-    <jstl.version>1.2</jstl.version>   
+    <jstl.version>1.2</jstl.version> 
+    <HikariCP-version>3.3.1</HikariCP-version>
     
   </properties>
 	<!-- END Declaration version of dependencies -->
@@ -107,6 +108,12 @@
 	    <artifactId>jstl</artifactId>
 	    <version>${jstl.version}</version>
 	</dependency>
+	
+	<dependency>
+    	<groupId>com.zaxxer</groupId>
+    	<artifactId>HikariCP</artifactId>
+    	<version>${HikariCP-version}</version>
+</dependency>
     <!-- END declaration of dependencies -->
   </dependencies>
 
