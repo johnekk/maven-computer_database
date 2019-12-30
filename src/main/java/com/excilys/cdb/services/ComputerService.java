@@ -40,4 +40,6 @@ public class ComputerService {
 	public static void delete(int id) {
 		computerDAO.deleteComputer(id);
 	}
+	
+	public static int nbComputer() { return computerDAO.findNumberOfComputers();}
 }

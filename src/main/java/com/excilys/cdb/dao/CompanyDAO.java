@@ -20,8 +20,25 @@ import com.excilys.cdb.mapper.CompanyMapper;
 public class CompanyDAO {
 
 	private ResultSet res;
-	private final static String FIND_ALL_COMPANIES = "SELECT ca.id, ca.name FROM company ca";
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
+	
+	private final static String FIND_NUMBER_OF_COMPANY 	= "	SELECT count(company.id)"
+														+ "	FROM company";
+	
+	private final static String FIND_ALL_COMPANIES	= "SELECT ca.id, ca.name"
+													+ "FROM company ca";
+	
+	private final static String UPDATE_COMPANY 	= "	UPDATE company"
+												+ "	SET name = ?"
+												+ "	WHERE id = ?";
+	
+	private final static String DELETE_COMPANY 	= "	DELETE "
+												+ " FROM Company"
+												+ "	WHERE id = ?";	
+	
+	
+
 	/** START Singleton.CompanyDAO -- Lazy-Loading */
 	// Private Constructor
 	private CompanyDAO() {};

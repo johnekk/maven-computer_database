@@ -23,7 +23,8 @@ public class ComputerDAO {
 
 	
 	private final static String FIND_ALL_COMPUTERS 	= "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
-													+ "	FROM computer, company WHERE company.id = computer.company_id";
+													+ "	FROM computer, company"
+													+ " WHERE company.id = computer.company_id";
 	
 	private final static String FIND_COMPUTER_BY_ID = "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
 													+ "	FROM computer, company"
@@ -34,7 +35,7 @@ public class ComputerDAO {
 															+ "	FROM computer"
 															+ "	WHERE computer.company_id = ?";
 		
-	private final static String FIND_NUMBER_OF_COMPUTER	= "	SELECT count(computer.id)"
+	private final static String FIND_NUMBER_OF_COMPUTER	= "	SELECT count(computer.id) AS 'nbComputer'"
 														+ "	FROM computer";
 	
 	

@@ -10,7 +10,6 @@ public class CompanyDTO {
 		this.name = builder.name;
 	}
 	
-	
 	public static class CompanyDTOBuilder {
 		private int id;
 	    private String name;
@@ -32,7 +31,6 @@ public class CompanyDTO {
 	    }
 	 }
 	 
-	
 	public int getId() {
 			return id;
 	 }
@@ -45,7 +43,6 @@ public class CompanyDTO {
 		return "CompanyDTO [idCompanyDTO=" + id + ", nameCompanyDTO=" + name + "]";
 	}
 
-
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -53,7 +50,6 @@ public class CompanyDTO {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-
 
 	public boolean equals(Object obj) {
 		if (this == obj)

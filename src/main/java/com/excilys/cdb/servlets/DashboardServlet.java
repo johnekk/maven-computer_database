@@ -28,9 +28,12 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		int nbComputer = ComputerService.nbComputer();
+		
 		List<Computer> listComputers = ComputerService.findAll();
-		request.setAttribute("listComputer", listComputers);
+		
+		request.setAttribute("listOfComputer", listComputers);
+		request.setAttribute("nbOfComputer", nbComputer);
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
 	}
 
@@ -39,7 +42,7 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		this.doGet(request, response);
 	}
 
 }

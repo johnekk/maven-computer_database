@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,7 +25,7 @@
         	
         	<div class="container">
             	<h1 id="homeTitle">
-                	121 Computers found
+                	<c:out value="${nbOfComputer}" /> Computers 
             	</h1>
             	<div id="actions" class="form-horizontal">
                 	<div class="pull-left">
@@ -42,47 +46,52 @@
         	</form>
 
         	<div class="container" style="margin-top: 10px;">
-            	<table class="table table-striped table-bordered">
-                	<thead>
-                    	<tr>
-                        <!-- Variable declarations for passing labels as parameters -->
-                        <!-- Table header for Computer Name -->
-
-                        	<th class="editMode" style="width: 60px; height: 22px;">
-                            	<input type="checkbox" id="selectall" /> 
-                            	<span style="vertical-align: top;">
-                                	<a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
-                                    	<i class="fa fa-trash-o fa-lg"></i>
+            	 <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="editMode" style="width: 60px; height: 22px;">
+                            <input type="checkbox" id="selectall" /> 
+                            <span style="vertical-align: top;">
+                                 -  <a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
+                                        <i class="fa fa-trash-o fa-lg"></i>
                                     </a>
-                            	</span>
-                        	</th>
-                        	<th>
-                            	Computer name
-                        	</th>
-                        	<th>
-                            	Introduced date
-                        	</th>
-                        	<!-- Table header for Discontinued Date -->
-                        	<th>
-                            	Discontinued date
-                        	</th>
-                        	<!-- Table header for Company -->
-                        	<th>
-                            	Company
-                        	</th>
+                            </span>
+                        </th>
+                        <th>
+                            Computer name
+                        </th>
+                        <th>
+                            Introduced date
+                        </th>
+                        <!-- Table header for Discontinued Date -->
+                        <th>
+                            Discontinued date
+                        </th>
+                        <!-- Table header for Company -->
+                        <th>
+                            Company
+                        </th>
+                    </tr>
+                </thead>
+                <!-- Browse attribute computers -->
+                <tbody id="results">
+                
+                	<c:forEach items ="${listOfComputer}" var="computer">
+                	    <tr>
+	                        <td class="editMode">
+	                            <input type="checkbox" name="cb" class="cb" value="${computer.getId()}">
+	                        </td>
+	                        <td>
+	                            <a href="/computer-database/editcomputer?computer_id=${computer.getId()}" onclick="">${computer.getName()}</a>
+	                        </td>
+	                        <td>${computer.getIntroduced()}</td>
+	                        <td>${computer.getDiscontinued()}</td>
+	                        <td>${computer.getCompany().getName()}</td>
                     	</tr>
-                	</thead>
-                	<!-- Browse attribute computers -->
-                	<tbody id="results">
-                    	<tr>
-                        	<td class="editMode"><input type="checkbox" name="cb" class="cb" value="0"></td>
-                        	<td><a href="editComputer.html" onclick="">MacBook Pro</a></td>
-                        	<td>2006-01-10</td>
-                        	<td>dedede</td>
-                        	<td>Apple Inc.</td>
-                    	</tr>
-                	</tbody>
-            	</table>
+                    </c:forEach>
+            
+                </tbody>
+            </table>
         	</div>
     	</section>
 

@@ -85,5 +85,7 @@ public class Computer {
 	public short isEqualTo(Computer computer) {
 		// TODO Auto-generated method stub
 		return 0;
-	}	
+	}
+
+
 }
