@@ -4,19 +4,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.excilys.cdb.dao.MySQLConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import com.excilys.cdb.dao.MyConnectionToDB;
 import com.excilys.cdb.exceptions.DAOException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
+@Component
 public class ComputerDAO {
 	
 	private ResultSet res;
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	
 	private final static String CREATE_COMPUTER 	= "	INSERT INTO computer (name, introduced, discontinued, company_id)"
 													+ "	VALUES (?,?,?,?)";
@@ -47,25 +55,15 @@ public class ComputerDAO {
 	private final static String DELETE_COMPUTER = "	DELETE "
 												+ "	FROM computer"
 												+ "	WHERE id = ?";
+	private MyConnectionToDB connection;
 	
-	/** START Singleton.CompanyDAO -- Lazy-Loading */
-
-	// Private Constructor
-	private static ComputerDAO computerDAO;
-	
-	// Point d'accès pour l'instance unique du singleton 
-	public static ComputerDAO getComputerDAOInstance() {
-		if (computerDAO == null) {
-			computerDAO = new ComputerDAO();
-		}
-		return computerDAO;
+	private ComputerDAO(MyConnectionToDB connection) {
+		this.connection = connection;
 	}
-	
-	/** END Singleton.CompanyDAO */
 	
 	public Computer createComputer(Computer computer) throws DAOException {
 		try{
-			Connection connect = MySQLConnection.getConnectionInstance(); 
+			Connection connect = connection.getConnectionInstance(); 
 			PreparedStatement statement = connect.prepareStatement(CREATE_COMPUTER);
 			statement.setString(1, computer.getName());
 			statement.setObject(2, computer.getIntroduced());
@@ -79,10 +77,10 @@ public class ComputerDAO {
 	}
 
 	
-	public List<Computer> findAllComputers() throws DAOException {	
+	public List<Computer> findAllComputers() {	
 		List<Computer> c = new ArrayList<>();
-		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPUTERS);) {
-			res= statement.executeQuery();
+		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPUTERS);) {
+			res = statement.executeQuery(FIND_ALL_COMPUTERS);
 			while (res.next()) {	
 				c.add(new Computer.ComputerBuilder().
 						setId(res.getInt("id")).
@@ -98,7 +96,7 @@ public class ComputerDAO {
 	}
 	
 	public int findNumberOfComputers() throws DAOException {
-		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_NUMBER_OF_COMPUTER);) {
+		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_NUMBER_OF_COMPUTER);) {
 			res = statement.executeQuery();
 			if (res.first()) {
 				return res.getInt("nbComputer");
@@ -112,7 +110,7 @@ public class ComputerDAO {
 	
 	public Optional<Computer> findComputerById(int id) throws DAOException {
 		Computer computer = null;
-		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_COMPUTER_BY_ID);){	
+		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_COMPUTER_BY_ID);){	
 			statement.setInt(1, id);
 			res= statement.executeQuery();
 			if (res.first()) {
@@ -131,7 +129,7 @@ public class ComputerDAO {
 
 	
 	public Computer updateComputer(Computer computer) throws DAOException {
-		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(UPDATE_COMPUTER);) {
+		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(UPDATE_COMPUTER);) {
 			if(res.first()) {
 				statement.setString(1, computer.getName());
 				statement.setObject(2, computer.getIntroduced());
@@ -147,7 +145,7 @@ public class ComputerDAO {
 
 	
 	public void deleteComputer(int id) throws DAOException {
-		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(DELETE_COMPUTER);) {
+		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(DELETE_COMPUTER);) {
 			statement.setInt(1, id);
 			statement.executeUpdate();
 		} catch (SQLException error) {

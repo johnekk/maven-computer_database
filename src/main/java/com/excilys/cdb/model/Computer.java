@@ -13,19 +13,19 @@ public class Computer {
 	private Company company;
 
 	private Computer(ComputerBuilder builder) {
-		this.id = builder.id;
-		this.name = builder.name;
-		this.introduced = builder.introduced;
-		this.discontinued = builder.discontinued;
-		this.company = builder.company;
+		this.id 			= builder.id;
+		this.name 			= builder.name;
+		this.introduced 	= builder.introduced;
+		this.discontinued 	= builder.discontinued;
+		this.company 		= builder.company;
 	}
 	
 	public Computer (int id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
-		this.id = id;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.company = company;
+		this.id 			= id;
+		this.name 			= name;
+		this.introduced 	= introduced;
+		this.discontinued 	= discontinued;
+		this.company 		= company;
 	}
 	
 	public int getId() 					{ return this.id; }
@@ -86,6 +86,4 @@ public class Computer {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
 }

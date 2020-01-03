@@ -3,25 +3,29 @@ package com.excilys.cdb.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.excilys.cdb.exceptions.DAOConfigurationException;
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.exceptions.DAOException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class MySQLConnection {
+@Component
+public class MyConnectionToDB {
 	
 	//initialiser HikariConfig avec un fichier de propriétés placé dans le répertoire resources :
-	private static HikariConfig config = new HikariConfig("/datasource.properties" );
+	private HikariConfig config = new HikariConfig("datasource.properties");
 	//creation d'une instance unique d'une source de donnée
-	private static HikariDataSource ds = new HikariDataSource( config );
+	private HikariDataSource ds = new HikariDataSource( config );
 	
 	private static Connection myConnection;
-    private  MySQLConnection() {};
-
+    
+	private MyConnectionToDB() {};
 	
+	//private static final Logger LOGGER = LoggerFactory.getLogger(MyConnectionToDB.class);
+   
 	/** Méthode qui retourne notre instance
 	 * @throws SQLException */
-	public static Connection getConnectionInstance() throws DAOConfigurationException, SQLException {
+	public Connection getConnectionInstance() throws  SQLException {
 		
 		if(myConnection == null) {
 			try {
@@ -30,7 +34,7 @@ public class MySQLConnection {
 				throw new DAOException( e );
 			}
 		}
-		return ds.getConnection();
+		return myConnection;
 	}
 	
 }

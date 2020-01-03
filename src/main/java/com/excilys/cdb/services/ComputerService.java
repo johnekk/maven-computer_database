@@ -3,25 +3,15 @@ package com.excilys.cdb.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.excilys.cdb.dao.ComputerDAO;
 import com.excilys.cdb.model.Computer;
 
+@Service
 public class ComputerService {
 	
-	private static ComputerDAO computerDAO = ComputerDAO.getComputerDAOInstance();
-	
-	/** START Singleton.ComputerService -- Lazy-Loading */
-	private static ComputerService computerService;
-	
-	public static ComputerService getInstance() {
-		if (computerService == null) {
-			computerService = new ComputerService();
-		}
-		return computerService;
-	}
-	
-	/** END Singleton.ComputerService*/
-
+	private static ComputerDAO computerDAO;
 	
 	public static void create(Computer computer) { computerDAO.createComputer(computer); }
 	

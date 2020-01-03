@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.dao.ComputerDAO;
+import com.excilys.cdb.exceptions.DAOException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
@@ -23,7 +24,7 @@ public class ComputerMapper {
 		return computerMapper;
 	}
 	
-	public static Computer ResultSetToComputer(ResultSet resultat) {
+	public static Computer ResultSetToComputer(ResultSet resultat) throws DAOException  {
 		
 		int id = 0;
 		String name = null;

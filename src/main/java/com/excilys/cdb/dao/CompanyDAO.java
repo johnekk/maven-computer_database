@@ -11,12 +11,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-import com.excilys.cdb.dao.MySQLConnection;
+import com.excilys.cdb.dao.MyConnectionToDB;
 import com.excilys.cdb.exceptions.DAOException;
 import com.excilys.cdb.mapper.CompanyMapper;
 
-
+@Repository
 public class CompanyDAO {
 
 	private ResultSet res;
@@ -37,29 +38,18 @@ public class CompanyDAO {
 												+ " FROM Company"
 												+ "	WHERE id = ?";	
 	
+	private MyConnectionToDB connection;
 	
-
-	/** START Singleton.CompanyDAO -- Lazy-Loading */
-	// Private Constructor
-	private CompanyDAO() {};
-	private static CompanyDAO companyDAO = null;
-	private static CompanyMapper companyMapper = CompanyMapper.getCompanyMapper();
-	
-	// Point d'accès pour l'instance unique du singleton 
-	public static CompanyDAO getCompanyDAOInstance() {
-		if (companyDAO == null) {
-			companyDAO = new CompanyDAO();
-		}
-		return companyDAO;
+	private CompanyDAO(MyConnectionToDB connection) {
+		this.connection = connection;
 	}
-	/** END Singleton.CompanyDAO */
 	
 	public List<Company> findAllCompanies() throws DAOException {
 		List<Company> cList = new ArrayList<>();
-		try(Connection connect = MySQLConnection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPANIES);) {
+		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPANIES);) {
 			res = statement.executeQuery();
 			while (res.next()) {
-				cList.add(companyMapper.ResultSetToCompany(res)); 
+				cList.add(CompanyMapper.ResultSetToCompany(res)); 
 			}
 		} catch (SQLException error) {
 			LOGGER.error(error.getMessage());

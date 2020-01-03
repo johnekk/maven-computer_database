@@ -17,7 +17,7 @@ import com.excilys.cdb.model.Computer;
 
 class ComputerDAOTest {
 
-	private ComputerDAO computerDao = ComputerDAO.getComputerDAOInstance();
+	private ComputerDAO computerDao;
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAOTest.class);	
 	
 	@BeforeAll

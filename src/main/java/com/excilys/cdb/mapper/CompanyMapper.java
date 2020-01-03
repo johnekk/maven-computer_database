@@ -20,7 +20,7 @@ public class CompanyMapper {
 		return companyMapper;
 	}
 	
-	public Company ResultSetToCompany(ResultSet resultat) {
+	public static Company ResultSetToCompany(ResultSet resultat) {
 		
 		int id = 0;
 		String name = null;

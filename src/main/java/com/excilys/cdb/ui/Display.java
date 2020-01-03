@@ -30,7 +30,7 @@ public class Display {
 				ComputerService.findAll();
 				break;
 			case "2":
-				CompanyService.findAllCompanies();
+				//CompanyService.findAllCompanies();
 				break;
 			case "3":
 				Actions.findOneCLI();

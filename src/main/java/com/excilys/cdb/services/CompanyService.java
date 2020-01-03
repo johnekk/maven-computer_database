@@ -1,28 +1,20 @@
 package com.excilys.cdb.services;
 
+import org.springframework.stereotype.Service;
+
 import com.excilys.cdb.dao.CompanyDAO;
 import com.excilys.cdb.model.Company;
 
+@Service
 public class CompanyService {
 	
-	private static CompanyDAO companyDAO = CompanyDAO.getCompanyDAOInstance();
-	
-	/** START Singleton.ComputerService -- Lazy-Loading */
-	
-	private CompanyService() {};
-	
-	private static CompanyService companyService = null;
-	
-	public static CompanyService getInstance() {
-		if (companyService == null) {
-			companyService = new CompanyService();
-		}
-		return companyService;
+	private final CompanyDAO companyDAO;
+
+	public CompanyService(CompanyDAO companyDAO) {
+		this.companyDAO = companyDAO;
 	}
 	
-	/** END Singleton.ComputerService*/
-	
-	public static void findAllCompanies() {
+	public void findAllCompanies() {
         for(Company company : companyDAO.findAllCompanies()) {
             System.out.println(company.toString());
         }
