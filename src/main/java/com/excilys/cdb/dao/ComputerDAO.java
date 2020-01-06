@@ -19,6 +19,7 @@ import com.excilys.cdb.dao.MyConnectionToDB;
 import com.excilys.cdb.exceptions.DAOException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.mapper.ComputerMapper;
 
 @Component
 public class ComputerDAO {
@@ -56,7 +57,7 @@ public class ComputerDAO {
 												+ "	FROM computer"
 												+ "	WHERE id = ?";
 	private MyConnectionToDB connection;
-	
+
 	private ComputerDAO(MyConnectionToDB connection) {
 		this.connection = connection;
 	}
@@ -82,12 +83,7 @@ public class ComputerDAO {
 		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPUTERS);) {
 			res = statement.executeQuery(FIND_ALL_COMPUTERS);
 			while (res.next()) {	
-				c.add(new Computer.ComputerBuilder().
-						setId(res.getInt("id")).
-						setName(res.getString("name")).
-						setIntroduced(res.getTimestamp("introduced")==null?null:res.getTimestamp("introduced").toLocalDateTime().toLocalDate()).
-						setdiscontinued(res.getTimestamp("discontinued")==null?null:res.getTimestamp("discontinued").toLocalDateTime().toLocalDate()).
-						setCompany(new Company.CompanyBuilder().setName(res.getString("name")).build()).build());
+				c.add(ComputerMapper.ResultSetToComputer(res));
 			}
 		} catch (SQLException error) {
 			throw new DAOException( error );

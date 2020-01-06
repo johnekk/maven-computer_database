@@ -27,22 +27,22 @@ public class Display {
 			repUser = sc.nextLine().trim();	
 			switch (repUser) {
 			case "1":
-				ComputerService.findAll();
+				//ComputerService.findAll();
 				break;
 			case "2":
 				//CompanyService.findAllCompanies();
 				break;
 			case "3":
-				Actions.findOneCLI();
+				//Actions.findOneCLI();
 				break;
 			case "4":
-				Actions.addCLI();
+				//Actions.addCLI();
 				break;
 			case "5":
-				ComputerService.update(null);
+				//ComputerService.update(null);
 				break;
 			case "6":
-				Actions.DeleteCLI();
+			//	Actions.DeleteCLI();
 				break;
 			default:
 				System.out.println("Réponse incorrecte!! Veuillez saisir une autre réponse entre 0 et 6");

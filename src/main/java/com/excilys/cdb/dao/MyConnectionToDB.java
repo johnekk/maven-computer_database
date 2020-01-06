@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class MyConnectionToDB {
 	
 	//initialiser HikariConfig avec un fichier de propriétés placé dans le répertoire resources :
-	private HikariConfig config = new HikariConfig("datasource.properties");
+	private HikariConfig config = new HikariConfig("/datasource.properties");
 	//creation d'une instance unique d'une source de donnée
 	private HikariDataSource ds = new HikariDataSource( config );
 	

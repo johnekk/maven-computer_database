@@ -40,7 +40,7 @@ public class ComputerDTO {
     		this.introduced = introduced;
     		return this;
     	}
-    	public ComputerDTOBuilder discontinuedDate(String discontinued) {
+    	public ComputerDTOBuilder discontinued(String discontinued) {
     		this.discontinued = discontinued;
     		return this;
     	}

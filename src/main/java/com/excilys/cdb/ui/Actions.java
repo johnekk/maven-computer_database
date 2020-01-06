@@ -17,7 +17,7 @@ public class Actions {
 
 	static int companyId;
 	
-	public static void addCLI() {
+	/**public static void addCLI() {
 		
 		System.out.println("Enter informations: ");
 		System.out.println( "Name of Computer");
@@ -61,6 +61,6 @@ public class Actions {
 		}
 		else
 			System.out.println("There is no computer with this ID. Try again!");
-	}
+	}*/
 
 }

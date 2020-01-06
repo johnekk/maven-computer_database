@@ -2,9 +2,7 @@ package com.excilys.cdb.servlets;
 
 import java.util.List;
 
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
@@ -25,6 +23,8 @@ import com.excilys.cdb.services.ComputerService;
  */
 @WebServlet(name = "Dashboard", urlPatterns = "/")
 public class DashboardServlet extends HttpServlet {
+	@Autowired
+	private ComputerService computerService;
 	private static final long serialVersionUID = 1L;
 
 	//PERMET À spring de reconnaitre tes Servlets 
@@ -43,9 +43,9 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int nbComputer = ComputerService.nbComputer();
+		int nbComputer = computerService.nbComputer();
 		
-		List<Computer> listComputers = ComputerService.findAll();
+		List<Computer> listComputers = computerService.findAll();
 		
 		request.setAttribute("listOfComputer", listComputers);
 		request.setAttribute("nbOfComputer", nbComputer);
