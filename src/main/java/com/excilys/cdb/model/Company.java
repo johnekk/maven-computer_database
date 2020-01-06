@@ -1,5 +1,7 @@
 package com.excilys.cdb.model;
 
+import java.util.Objects;
+
 public class Company {
 	
 	private int id;
@@ -12,16 +14,11 @@ public class Company {
 	}
 	
 	
-	public int getId() {
-		return id;
-	}
-	public String getName() {
-		return name;
-	}
+	public int getId() { return id; }
+	public String getName() { return name; }
 
 	
 	public static class CompanyBuilder {
-		
 		private int id;
 		private String name = "";
 		
@@ -40,14 +37,38 @@ public class Company {
         public Company build() {
         	return new Company(this);
         }
-
 	}
 
+	@Override
+    public boolean equals(Object obj) {
+		// checking if both the object references are referring to the same object.
+        if (this == obj) return true;
+        
+        // it checks if the argument is of the type Geek by comparing the classes 
+        // of the passed argument and this object.
+        if (obj == null || getClass() != obj.getClass()) return false;
+        
+        // type casting of the argument. 
+        Company company = (Company) obj;
+        
+        // comparing the state of argument with the state of 'this' Object. 
+        return (company.id == this.id
+        		&& company.name == this.name);
+        /**return name == 	company.name 
+        				&& Objects.equals(id, company.id)
+        				&& Objects.equals(name, company.name);*/
+    }
+
+    @Override
+    public int hashCode() {
+    	// We are returning the Company_id as a hashcode value. we can also return some  
+        // other calculated value or may be memory address of the Object on which it is invoked.  
+        // it depends on how you implement hashCode() method. 
+        return Objects.hash(id, name);
+    }
 	
 	@Override
 	public String toString() {
 		return "Name of company : " + this.getName() + "\n";
-	}
-
-	
+	}	
 }

@@ -70,6 +70,57 @@ public class Computer {
 		
 	}
 	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
+		Computer other = (Computer) obj;
+		
+		if (id != other.id)
+			return false;
+		
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		
+		if (introduced == null) {
+			if (other.introduced != null)
+				return false;
+		} else if (!introduced.equals(other.introduced))
+			return false;
+		
+		if (discontinued == null) {
+			if (other.discontinued != null)
+				return false;
+		} else if (!discontinued.equals(other.discontinued))
+			return false;
+		
+		if (company == null) {
+			if (other.company != null)
+				return false;
+		} else if (!company.equals(other.company))
+			return false;
+		
+		return true;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int res = 1;
+		res = prime * res + id;
+		res = prime * res + ((name == null) ? 0 : name.hashCode());
+		res = prime * res + ((introduced == null) ? 0 : introduced.hashCode());
+		res = prime * res + ((discontinued == null) ? 0 : discontinued.hashCode());
+		res = prime * res + ((company == null) ? 0 : company.hashCode());
+		return res;
+	}
+	
+	
 	@Override
 	public String toString() {
 		String str =	"ID : " + this.getId() + "\n";
@@ -80,10 +131,5 @@ public class Computer {
 		str +=			"\n.....................................\n";
 		
 		return str;
-	}
-
-	public short isEqualTo(Computer computer) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

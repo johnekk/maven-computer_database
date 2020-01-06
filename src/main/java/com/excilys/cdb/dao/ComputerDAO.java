@@ -76,7 +76,8 @@ public class ComputerDAO {
 	
 	public List<Computer> findAllComputers() {	
 		List<Computer> c = new ArrayList<>();
-		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPUTERS);) {
+		try(Connection connect = connection.getConnectionInstance();
+			PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPUTERS);) {
 			res = statement.executeQuery(FIND_ALL_COMPUTERS);
 			while (res.next()) {	
 				c.add(ComputerMapper.ResultSetToComputer(res));
@@ -88,7 +89,8 @@ public class ComputerDAO {
 	}
 	
 	public int findNumberOfComputers() throws DAOException {
-		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_NUMBER_OF_COMPUTER);) {
+		try(Connection connect = connection.getConnectionInstance();
+			PreparedStatement statement = connect.prepareStatement(FIND_NUMBER_OF_COMPUTER);) {
 			res = statement.executeQuery();
 			if (res.first()) {
 				return res.getInt("nbComputer");
@@ -102,7 +104,8 @@ public class ComputerDAO {
 	
 	public Optional<Computer> findComputerById(int id) throws DAOException {
 		Computer computer = null;
-		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(FIND_COMPUTER_BY_ID);){	
+		try(Connection connect = connection.getConnectionInstance();
+			PreparedStatement statement = connect.prepareStatement(FIND_COMPUTER_BY_ID);){	
 			statement.setInt(1, id);
 			res= statement.executeQuery();
 			if (res.first()) {
@@ -116,7 +119,8 @@ public class ComputerDAO {
 
 	
 	public Computer updateComputer(Computer computer) throws DAOException {
-		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(UPDATE_COMPUTER);) {
+		try(Connection connect = connection.getConnectionInstance();
+			PreparedStatement statement = connect.prepareStatement(UPDATE_COMPUTER);) {
 			if(res.first()) {
 				statement.setString(1, computer.getName());
 				statement.setObject(2, computer.getIntroduced());
@@ -132,7 +136,8 @@ public class ComputerDAO {
 
 	
 	public void deleteComputer(int id) throws DAOException {
-		try(Connection connect = connection.getConnectionInstance(); PreparedStatement statement = connect.prepareStatement(DELETE_COMPUTER);) {
+		try(Connection connect = connection.getConnectionInstance();
+			PreparedStatement statement = connect.prepareStatement(DELETE_COMPUTER);) {
 			statement.setInt(1, id);
 			statement.executeUpdate();
 		} catch (SQLException error) {
