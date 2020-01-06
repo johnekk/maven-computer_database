@@ -1,13 +1,10 @@
 package com.excilys.cdb.mapper;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.excilys.cdb.dao.ComputerDAO;
 import com.excilys.cdb.dtos.CompanyDTO;
 import com.excilys.cdb.dtos.ComputerDTO;
 import com.excilys.cdb.exceptions.DAOException;
@@ -16,11 +13,7 @@ import com.excilys.cdb.model.Computer;
 
 public class ComputerMapper {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class); 
-	
 	private ComputerMapper() {};
-	
-	private ComputerMapper computerMapper;
 	
 	private  static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 	
@@ -59,24 +52,13 @@ public class ComputerMapper {
 		return computerDTO;
 	}
 	
-	public static Computer ResultSetToComputer(ResultSet resultat) throws DAOException  {
-		
-		int id = 0;
-		String name = null;
-		LocalDate introduced;
-		LocalDate discontinued;
-		Company company;
-		
-		try {
-			id 		= (resultat.getInt("id") != 0) ? resultat.getInt("id"): null;
-			name 	= (resultat.getString("name") != null) ? resultat.getString("name"): null;
-			introduced = (resultat.getTimestamp("introduced")==null?null:resultat.getTimestamp("introduced").toLocalDateTime().toLocalDate());
-			discontinued = (resultat.getTimestamp("discontinued")==null?null:resultat.getTimestamp("discontinued").toLocalDateTime().toLocalDate());
-			company = new Company.CompanyBuilder().setName(resultat.getString("name")).build();
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}	
-		return new Computer.ComputerBuilder().build();
+	public static Computer ResultSetToComputer(ResultSet res) throws DAOException, SQLException  {
+		Computer computer = new Computer.ComputerBuilder().
+							setId(res.getInt("id")).
+							setName(res.getString("name")).
+							setIntroduced(res.getTimestamp("introduced")==null?null:res.getTimestamp("introduced").toLocalDateTime().toLocalDate()).
+							setdiscontinued(res.getTimestamp("discontinued")==null?null:res.getTimestamp("discontinued").toLocalDateTime().toLocalDate()).
+							setCompany(new Company.CompanyBuilder().setName(res.getString("name")).build()).build();
+		return computer;
 	}
-
 }

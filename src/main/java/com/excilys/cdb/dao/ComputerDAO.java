@@ -4,20 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.excilys.cdb.dao.MyConnectionToDB;
 import com.excilys.cdb.exceptions.DAOException;
-import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.mapper.ComputerMapper;
 
@@ -110,12 +106,7 @@ public class ComputerDAO {
 			statement.setInt(1, id);
 			res= statement.executeQuery();
 			if (res.first()) {
-				computer = new Computer.ComputerBuilder().
-				setId(res.getInt("id")).
-				setName(res.getString("name")).
-				setIntroduced(res.getTimestamp("introduced")==null?null:res.getTimestamp("introduced").toLocalDateTime().toLocalDate()).
-				setdiscontinued(res.getTimestamp("discontinued")==null?null:res.getTimestamp("discontinued").toLocalDateTime().toLocalDate()).
-				setCompany(new Company.CompanyBuilder().setName(res.getString("name")).build()).build();
+				computer = ComputerMapper.ResultSetToComputer(res);
 			}
 		} catch (SQLException error) {
 			throw new DAOException( error );
