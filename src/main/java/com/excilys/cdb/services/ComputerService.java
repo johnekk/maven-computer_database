@@ -1,7 +1,6 @@
 package com.excilys.cdb.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -30,17 +29,15 @@ public class ComputerService {
 		return computerDAO.findNumberOfComputers();
 	}
 	
-	public void findByID(int id) {
-		Optional<Computer> computer = computerDAO.findComputerById(id);
-		if (computer.isPresent())
-			System.out.println(computer.get().toString());
+	public Computer findByID(int id) {
+		return computerDAO.findComputerById(id);
 	}
 	
 	public void update(Computer computer) { 
 		computerDAO.updateComputer(computer);
 	}
 	
-	public void delete(int id) {
-		computerDAO.deleteComputer(id);
+	public void delete(Computer computer) {
+		computerDAO.deleteComputer(computer);
 	}
 }

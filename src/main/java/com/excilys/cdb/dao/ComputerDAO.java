@@ -4,12 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dao.MyConnectionToDB;
@@ -21,100 +18,63 @@ import com.excilys.cdb.mapper.ComputerMapper;
 public class ComputerDAO {
 	
 	private ResultSet res;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	
-	private final static String CREATE_COMPUTER 	= "	INSERT INTO computer (name, introduced, discontinued, company_id)"
-													+ "	VALUES (?,?,?,?)";
+	JdbcTemplate jdbcTemplate;
+	
 
 	
-	private final static String FIND_ALL_COMPUTERS 	= "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
-													+ "	FROM computer, company"
-													+ " WHERE company.id = computer.company_id";
+	private final String CREATE_COMPUTER 	= "	INSERT INTO computer (name, introduced, discontinued, company_id)"
+											+ "	VALUES (?,?,?,?)";
+
 	
-	private final static String FIND_COMPUTER_BY_ID = "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
-													+ "	FROM computer, company"
-													+ "	WHERE company.id = computer.company_id"
-													+ "	AND computer.id = ?";
+	private final String FIND_ALL_COMPUTERS 	= "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
+												+ "	FROM computer, company"
+												+ " WHERE company.id = computer.company_id";
 	
-	private final static String FIND_COMPUTERS_BY_COMPANY	= "	SELECT computer.id, computer.name, compter.introduced, computer.discontinued"
-															+ "	FROM computer"
-															+ "	WHERE computer.company_id = ?";
+	private final String FIND_COMPUTER_BY_ID	=	" SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
+												+ 	" FROM computer, company"
+												+ 	" WHERE company.id = computer.company_id"
+												+ 	" AND computer.id = ?";
+	
+	private final String FIND_COMPUTERS_BY_COMPANY	= "	SELECT computer.id, computer.name, compter.introduced, computer.discontinued"
+													+ "	FROM computer"
+													+ "	WHERE computer.company_id = ?";
 		
-	private final static String FIND_NUMBER_OF_COMPUTER	= "	SELECT count(computer.id) AS 'nbComputer'"
-														+ "	FROM computer";
+	private final String FIND_NUMBER_OF_COMPUTER	= "	SELECT count(computer.id) AS 'nbComputer'"
+													+ "	FROM computer";
 	
 	
-	private final static String UPDATE_COMPUTER = "	UPDATE computer"
-												+ "	SET name = ?, introduce = ?, discontinued = ?, company_id = ?"
-												+ "	WHERE id = ?";
+	private final String UPDATE_COMPUTER 	= "	UPDATE computer"
+											+ "	SET name = ?, introduce = ?, discontinued = ?, company_id = ?"
+											+ "	WHERE id = ?";
 
 	
-	private final static String DELETE_COMPUTER = "	DELETE "
-												+ "	FROM computer"
-												+ "	WHERE id = ?";
+	private final String DELETE_COMPUTER 	= "	DELETE "
+											+ "	FROM computer"
+											+ "	WHERE id = ?";
 	private MyConnectionToDB connection;
 
 	private ComputerDAO(MyConnectionToDB connection) {
 		this.connection = connection;
 	}
 	
-	public Computer createComputer(Computer computer) throws DAOException {
-		try{
-			Connection connect = connection.getConnectionInstance(); 
-			PreparedStatement statement = connect.prepareStatement(CREATE_COMPUTER);
-			statement.setString(1, computer.getName());
-			statement.setObject(2, computer.getIntroduced());
-			statement.setObject(3, computer.getDiscontinued());
-			statement.setInt(4, computer.getCompany().getId());
-			statement.executeUpdate();
-		} catch (SQLException error) {
-			throw new DAOException( error );
-		}
-		return null;
+	public boolean createComputer(Computer computer) throws DAOException {
+		return jdbcTemplate.update(CREATE_COMPUTER, computer.getId(), computer.getName(), 
+													computer.getIntroduced(), computer.getDiscontinued(),
+													computer.getCompany()) > 0;
+	}
+
+	public int findNumberOfComputers() throws DAOException {
+		return jdbcTemplate.queryForObject(FIND_NUMBER_OF_COMPUTER, Integer.class);
 	}
 
 	
 	public List<Computer> findAllComputers() {	
-		List<Computer> c = new ArrayList<>();
-		try(Connection connect = connection.getConnectionInstance();
-			PreparedStatement statement = connect.prepareStatement(FIND_ALL_COMPUTERS);) {
-			res = statement.executeQuery(FIND_ALL_COMPUTERS);
-			while (res.next()) {	
-				c.add(ComputerMapper.ResultSetToComputer(res));
-			}
-		} catch (SQLException error) {
-			throw new DAOException( error );
-		}
-		return c;
+		return (List<Computer>) jdbcTemplate.query(FIND_ALL_COMPUTERS, new ComputerMapper());
 	}
 	
-	public int findNumberOfComputers() throws DAOException {
-		try(Connection connect = connection.getConnectionInstance();
-			PreparedStatement statement = connect.prepareStatement(FIND_NUMBER_OF_COMPUTER);) {
-			res = statement.executeQuery();
-			if (res.first()) {
-				return res.getInt("nbComputer");
-			}
-		} catch (SQLException error) {
-			throw new DAOException( error );
-		}
-		return 0;
-	}
-
-	
-	public Optional<Computer> findComputerById(int id) throws DAOException {
-		Computer computer = null;
-		try(Connection connect = connection.getConnectionInstance();
-			PreparedStatement statement = connect.prepareStatement(FIND_COMPUTER_BY_ID);){	
-			statement.setInt(1, id);
-			res= statement.executeQuery();
-			if (res.first()) {
-				computer = ComputerMapper.ResultSetToComputer(res);
-			}
-		} catch (SQLException error) {
-			throw new DAOException( error );
-		}
-		return Optional.ofNullable(computer);
+	public Computer findComputerById(int id) throws DAOException {
+		return jdbcTemplate.queryForObject(FIND_COMPUTER_BY_ID, new Object[] { id }, new ComputerMapper());
 	}
 
 	
@@ -135,13 +95,7 @@ public class ComputerDAO {
 	}
 
 	
-	public void deleteComputer(int id) throws DAOException {
-		try(Connection connect = connection.getConnectionInstance();
-			PreparedStatement statement = connect.prepareStatement(DELETE_COMPUTER);) {
-			statement.setInt(1, id);
-			statement.executeUpdate();
-		} catch (SQLException error) {
-			throw new DAOException(error);
-		}
+	public boolean deleteComputer(Computer computer) throws DAOException {
+		return jdbcTemplate.update(DELETE_COMPUTER, computer.getId()) > 0;
 	}
 }
