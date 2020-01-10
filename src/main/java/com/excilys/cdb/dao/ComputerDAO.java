@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -36,9 +38,9 @@ public class ComputerDAO {
 												+ 	" WHERE company.id = computer.company_id"
 												+ 	" AND computer.id = ?";
 	
-	private final String FIND_COMPUTERS_BY_COMPANY	= "	SELECT computer.id, computer.name, compter.introduced, computer.discontinued"
+	/*private final String FIND_COMPUTERS_BY_COMPANY	= "	SELECT computer.id, computer.name, compter.introduced, computer.discontinued"
 													+ "	FROM computer"
-													+ "	WHERE computer.company_id = ?";
+													+ "	WHERE computer.company_id = ?";*/
 		
 	private final String FIND_NUMBER_OF_COMPUTER	= "	SELECT count(computer.id) AS 'nbComputer'"
 													+ "	FROM computer";
@@ -54,8 +56,9 @@ public class ComputerDAO {
 											+ "	WHERE id = ?";
 	private MyConnectionToDB connection;
 
-	private ComputerDAO(MyConnectionToDB connection) {
-		this.connection = connection;
+	
+	public ComputerDAO(DataSource dataSource) {
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
 	public boolean createComputer(Computer computer) throws DAOException {

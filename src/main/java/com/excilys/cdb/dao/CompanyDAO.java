@@ -44,18 +44,18 @@ public class CompanyDAO {
 											+ "WHERE id = ?";
 	
 	private final String UPDATE_COMPANY 	= "	UPDATE company"
-												+ "	SET name = ?"
-												+ "	WHERE id = ?";
+											+ "	SET name = ?"
+											+ "	WHERE id = ?";
 	
 	private final String DELETE_COMPANY 	= "	DELETE "
-												+ " FROM Company"
-												+ "	WHERE id = ?";	
+											+ " FROM Company"
+											+ "	WHERE id = ?";	
 	
 	private MyConnectionToDB connection;
 
 	
-	public CompanyDAO(DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
+	public CompanyDAO(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 	
 	public List<Company> findAllCompanies() throws DAOException {

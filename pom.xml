@@ -22,7 +22,7 @@
 
     <junit-jupiter-api.version>5.5.2</junit-jupiter-api.version>
     <junit.platform.version>1.5.2</junit.platform.version>
-    <servlet-api.version>2.5</servlet-api.version>
+    <servlet-api.version>3.1.0</servlet-api.version>
     <mysql-connector-java.version>5.1.39</mysql-connector-java.version> 
     <jstl.version>1.2</jstl.version> 
     <HikariCP.version>3.4.0</HikariCP.version>
@@ -55,7 +55,7 @@
     
     <dependency>
 	    <groupId>javax.servlet</groupId>
-	    <artifactId>servlet-api</artifactId>
+	    <artifactId>javax.servlet-api</artifactId>
 	    <version>${servlet-api.version}</version>
 	    <scope>provided</scope>
 	</dependency>
@@ -113,12 +113,6 @@
 
 	
 	<dependency>
-    	<groupId>com.zaxxer</groupId>
-    	<artifactId>HikariCP</artifactId>
-    	<version>${HikariCP.version}</version>
-	</dependency>
-	
-	<dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-web</artifactId>
     	<version>${spring.version}</version>
@@ -141,6 +135,12 @@
 		<artifactId>spring-jdbc</artifactId>
 		<version>${spring.version}</version>
 	</dependency>
+	
+	<dependency>  
+    	<groupId>org.springframework</groupId>  
+    	<artifactId>spring-webmvc</artifactId>  
+    	<version>${spring.version}</version>  
+	</dependency>  
 	
 	<dependency>
 		<groupId>ch.qos.logback</groupId>
