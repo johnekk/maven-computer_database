@@ -9,7 +9,7 @@ import com.excilys.cdb.dao.CompanyDAO;
 import com.excilys.cdb.mapper.CompanyMapper;
 
 @Controller
-public class CompanyConroller {
+public class CompanyController {
 	
 	@Autowired
 	CompanyDAO dao;

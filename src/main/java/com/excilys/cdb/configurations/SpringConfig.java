@@ -1,6 +1,5 @@
 package com.excilys.cdb.configurations;
 
-
 import javax.servlet.ServletContext;
 
 import javax.servlet.ServletException;
@@ -25,8 +24,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = {	"com.excilys.cdb.configuration",
 								"com.excilys.cdb.controllers",
 								"com.excilys.cdb.dao",
-								"com.excilys.cdb.services",
-								"com.excilys.cdb.servlets"})
+								"com.excilys.cdb.services"})
 @PropertySource("classpath:datasource.properties")
 public class SpringConfig implements WebApplicationInitializer {
 	
@@ -51,19 +49,15 @@ public class SpringConfig implements WebApplicationInitializer {
 	}
 	
 	@Override
-    public void onStartup(ServletContext servletCxt) throws ServletException {
-
-        // Load Spring web application configuration
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(SpringConfig.class, SpringMvcConfig.class);
-        rootContext.setServletContext(servletCxt);
-
-        // Create and register the DispatcherServlet
-        DispatcherServlet servlet = new DispatcherServlet(rootContext);
-        ServletRegistration.Dynamic registration = servletCxt.addServlet("app", servlet);
-        registration.setLoadOnStartup(1);
-        registration.addMapping("/");
-    }
+	public void onStartup(ServletContext ctx) throws ServletException {
+        AnnotationConfigWebApplicationContext webCtx = new AnnotationConfigWebApplicationContext();
+        webCtx.register(SpringConfig.class, SpringMvcConfig.class);
+        webCtx.setServletContext(ctx);
+        
+        ServletRegistration.Dynamic servlet = ctx.addServlet("dispatcher", new DispatcherServlet(webCtx));
+        servlet.setLoadOnStartup(1);
+        servlet.addMapping("/");
+	}
 		
 	@Bean
     public JdbcTemplate jdbcTemplate() {

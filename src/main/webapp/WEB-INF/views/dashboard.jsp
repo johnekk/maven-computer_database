@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Computer Database</title>
+		<title><spring:message code="dashboard.title" /></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 		
@@ -27,6 +27,7 @@
             	<h1 id="homeTitle">
                 	<c:out value="${nbOfComputer}" /> Computers 
             	</h1>
+            
             	<div id="actions" class="form-horizontal">
                 	<div class="pull-left">
                     	<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -57,20 +58,12 @@
                                     </a>
                             </span>
                         </th>
-                        <th>
-                            Computer name
-                        </th>
-                        <th>
-                            Introduced date
-                        </th>
+                        <th><spring:message code="dashboard.computerName" /></th>
+                        <th><spring:message code="dashboard.introduced" /></th>
                         <!-- Table header for Discontinued Date -->
-                        <th>
-                            Discontinued date
-                        </th>
+                      	<th><spring:message code="dashboard.discontinued" /></th>
                         <!-- Table header for Company -->
-                        <th>
-                            Company
-                        </th>
+						<th><spring:message code="dashboard.company" /></th>
                     </tr>
                 </thead>
                 <!-- Browse attribute computers -->

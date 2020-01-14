@@ -15,7 +15,7 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.services.ComputerService;
 
 @Controller
-@RequestMapping("/Computer")
+//@RequestMapping("/")
 public class ComputerController {
 
 	
@@ -44,7 +44,7 @@ public class ComputerController {
     }    
     
     /* It provides list of employees in model object */    
-    @RequestMapping(value="/dashboard")    
+    @RequestMapping(value="/", method = RequestMethod.GET)    
     public String viewemp(Model model){    
         List<Computer> list = computerService.findAll();    
         model.addAttribute("list",list);  
