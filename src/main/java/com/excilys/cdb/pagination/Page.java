@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Page<E> {
 	
-	private int actualPageNumber = 1;
+	private int pageID = 1;
     private int pagesAvailable;
     private List<E> pageItems = new ArrayList<E>();
 
-    public void setActualPageNumber(int actualPageNumber) {
-        this.actualPageNumber = actualPageNumber;
+    public void setPageID(int pageID) {
+        this.pageID = pageID;
     }
 
     public void setPagesAvailable(int pagesAvailable) {
@@ -24,8 +24,8 @@ public class Page<E> {
         this.pageItems = pageItems;
     }
 
-    public int getActualPageNumber() {
-        return actualPageNumber;
+    public int getPageID() {
+        return pageID;
     }
 
     public int getPagesAvailable() {

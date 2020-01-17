@@ -23,24 +23,28 @@ public class ComputerDAO {
 	
 	JdbcTemplate jdbcTemplate;
 	
-
-	
 	private final String CREATE_COMPUTER 	= "	INSERT INTO computer (name, introduced, discontinued, company_id)"
 											+ "	VALUES (?,?,?,?)";
 
 	
-	private final String FIND_ALL_COMPUTERS 	= "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
+	/*private final String FIND_ALL_COMPUTERS 	= "	SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
 												+ "	FROM computer, company"
-												+ " WHERE company.id = computer.company_id";
+												+ " WHERE company.id = computer.company_id";*/
+	
+	private final String FIND_ALL_COMPUTER_PAGINATION 	= "SELECT  computer.id, computer.name, computer.introduced, computer.discontinued, "
+														+ "computer.company_id, company.name "
+														+ "FROM computer "
+														+ "LEFT JOIN company ON computer.company_id = company.id "														
+														+ "LIMIT ? OFFSET ? ;";
 	
 	private final String FIND_COMPUTER_BY_ID	=	" SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name"
 												+ 	" FROM computer, company"
 												+ 	" WHERE company.id = computer.company_id"
 												+ 	" AND computer.id = ?";
 	
-	/*private final String FIND_COMPUTERS_BY_COMPANY	= "	SELECT computer.id, computer.name, compter.introduced, computer.discontinued"
+	private final String FIND_COMPUTERS_BY_COMPANY	= "	SELECT computer.id, computer.name, compter.introduced, computer.discontinued"
 													+ "	FROM computer"
-													+ "	WHERE computer.company_id = ?";*/
+													+ "	WHERE computer.company_id = ?";
 		
 	private final String FIND_NUMBER_OF_COMPUTER	= "	SELECT count(computer.id) AS 'nbComputer'"
 													+ "	FROM computer";
@@ -72,8 +76,8 @@ public class ComputerDAO {
 	}
 
 	
-	public List<Computer> findAllComputers() {	
-		return (List<Computer>) jdbcTemplate.query(FIND_ALL_COMPUTERS, new ComputerMapper());
+	public List<Computer> findAllComputers(int limit, int offset) {	
+		return (List<Computer>) jdbcTemplate.query(FIND_ALL_COMPUTER_PAGINATION, new ComputerMapper(), limit, offset);
 	}
 	
 	public Computer findComputerById(int id) throws DAOException {

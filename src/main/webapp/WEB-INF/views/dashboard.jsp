@@ -93,33 +93,50 @@
     	</section>
 
     	<footer class="navbar-fixed-bottom">
-
-			<div class="container text-center">
+        	<div class="container text-center">
             	<ul class="pagination">
-                	<li>
-                    	<a href="#" aria-label="Previous">
+            	
+            		<c:if test="${pageID != 1}">
+                		<li>
+                    		<a href="?search=${search}" aria-label="Previous">
                     		<span aria-hidden="true">&laquo;</span>
-                    	</a>
-              		</li>
-              		<li><a href="#">1</a></li>
-              		<li><a href="#">2</a></li>
-              		<li><a href="#">3</a></li>
-              		<li><a href="#">4</a></li>
-              		<li><a href="#">5</a></li>
-              		<li>
-                		<a href="#" aria-label="Next">
-                    		<span aria-hidden="true">&raquo;</span>
-                		</a>
-            		</li>
-        		</ul>
-			</div>
-			
-        	<div class="btn-group btn-group-sm pull-right" role="group" >
-            	<button type="button" class="btn btn-default">10</button>
-            	<button type="button" class="btn btn-default">50</button>
-            	<button type="button" class="btn btn-default">100</button>
-        	</div>
-        	
+                  			</a> 	
+		        		</li>
+		        	</c:if>
+              		
+              		<c:if test="${pageID - 2 > 0}">
+              			<li><a href="?pageNumero=${pageID - 2}&search=${search}"><c:out value="${pageID - 2}"/></a></li>
+              		</c:if>
+
+					<c:if test="${currentPage - 1 > 0}">
+              			<li><a href="?pageNumero=${pageID - 1}&search=${search}"><c:out value="${pageID - 1}"/></a></li>
+              		</c:if>
+
+              		<c:if test="${currentPage + 1  < nbPage+1}">
+              			<li><a href="?pageNumero=${pageID + 1}&search=${search}"><c:out value="${pageID + 1}"/></a></li>
+              		</c:if>
+
+              		<c:if test="${currentPage + 2  < nbPage+1}">
+              			<li><a href="?pageNumero=${pageID + 2}&search=${search}"><c:out value="${pageID + 2}"/></a></li>
+              		</c:if>
+              
+              <c:if test="${pageID < nbPage}">
+              	<li>
+	                <a href="?pageNumero=${nbPage}&search=${search}" aria-label="Next">
+	                    <span aria-hidden="true">&raquo;</span>
+	                </a>            
+            	</li>
+            </c:if>
+            
+        </ul>
+        <div class="btn-group btn-group-sm pull-right" role="group" >
+        
+            <a class="btn btn-default" href="?limit=${10}&search=${search}"><c:out value="${10}"/></a>
+            <a class="btn btn-default" href="?limit=${50}&search=${search}"><c:out value="${50}"/></a>
+            <a class="btn btn-default" href="?limit=${100}&search=${search}"><c:out value="${100}"/></a>
+                        
+        </div>
+	</div>
     </footer>
     
 	<script><%@ include file ="../../js/jquery.min.js"%></script>

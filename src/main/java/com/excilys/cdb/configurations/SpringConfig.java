@@ -24,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = {	"com.excilys.cdb.configuration",
 								"com.excilys.cdb.controllers",
 								"com.excilys.cdb.dao",
+								"com.excilys.cdb.dto",
 								"com.excilys.cdb.services"})
 @PropertySource("classpath:datasource.properties")
 public class SpringConfig implements WebApplicationInitializer {

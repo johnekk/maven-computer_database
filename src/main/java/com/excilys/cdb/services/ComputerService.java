@@ -21,9 +21,10 @@ public class ComputerService {
 		computerDAO.createComputer(computer);
 	}
 	
-	public List<Computer> findAll() { 
-		return computerDAO.findAllComputers(); 
+	public List<Computer> findAll(int limit, int offset) { 
+		return computerDAO.findAllComputers(limit, offset); 
 	}
+
 	
 	public int nbComputer() { 
 		return computerDAO.findNumberOfComputers();

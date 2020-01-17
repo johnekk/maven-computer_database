@@ -2,14 +2,13 @@ package com.excilys.cdb.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
@@ -20,16 +19,15 @@ public class ComputerController {
 	
 	private ComputerService computerService;
 	
-	@Autowired
 	public ComputerController(ComputerService computerService) {
 		this.computerService = computerService;
 	}
 	
-	int nbComputer = 0;
+	int pageID = 1, nbComputer = 0, limit = 0, offset = 0, nbPage = 0;
 	
 	// It displays a form to input data, here "command" is a reserved request attribute  
     // which is used to display object data into form  
-	@RequestMapping("/computerForm")
+	@GetMapping("/addComputer")
 	public String showform(Model model) {
 		model.addAttribute("command",new ComputerMapper());
 		return "companyForm";
@@ -38,25 +36,34 @@ public class ComputerController {
 	// It saves object into database. The @ModelAttribute puts request data  
     // into model object. You need to mention RequestMethod.POST method   
     // because default request is GET*/    
-    @RequestMapping(value="/addComputer",method = RequestMethod.POST)    
+    @PostMapping(value="/addComputer")    
     public String save(@ModelAttribute("computer") Computer computer){    
     	computerService.create(computer);    
         return "redirect:/addComputer";//will redirect to viewemp request mapping    
     }    
     
     // It provides list of employees in model object    
-    @GetMapping
-    public String findAllComputers(Model model){
-        List<Computer> listComputer = computerService.findAll();
+    @GetMapping("/dashboard/{pageID}")
+    //@RequestMapping(value="/dashboard/{pageID}")
+    public String findAllComputers(@PathVariable int pageID, Model model){
+    	   
+    	if(pageID==1){}    
+        else{
+        	pageID=(pageID-1)*nbPage+1;    
+        }
+    	
+    	List<Computer> listComputer = computerService.findAll(limit, offset);
         nbComputer = computerService.nbComputer();
         
         model.addAttribute("listComputer", listComputer);  
         model.addAttribute("nbComputer", nbComputer);
+        model.addAttribute("nbPage", nbPage);
+		model.addAttribute("pageID", pageID);
         return "dashboard";    
     }
     
     // It deletes record for the given id in URL and redirects to /viewemp
-    @RequestMapping(value="/deleteComputer/{computer}",method = RequestMethod.GET)    
+    @GetMapping(value="/deleteComputer/{computer}")    
     public String delete(@PathVariable Computer computer){    
     	computerService.delete(computer);    
         return "redirect:/dashboard";    
