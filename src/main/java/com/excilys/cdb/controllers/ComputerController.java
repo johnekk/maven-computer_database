@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,7 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.services.ComputerService;
 
 @Controller
-//@RequestMapping("/")
 public class ComputerController {
-
 	
 	private ComputerService computerService;
 	
@@ -25,6 +24,8 @@ public class ComputerController {
 	public ComputerController(ComputerService computerService) {
 		this.computerService = computerService;
 	}
+	
+	int nbComputer = 0;
 	
 	// It displays a form to input data, here "command" is a reserved request attribute  
     // which is used to display object data into form  
@@ -43,15 +44,18 @@ public class ComputerController {
         return "redirect:/addComputer";//will redirect to viewemp request mapping    
     }    
     
-    /* It provides list of employees in model object */    
-    @RequestMapping(value="/", method = RequestMethod.GET)    
-    public String viewemp(Model model){    
-        List<Computer> list = computerService.findAll();    
-        model.addAttribute("list",list);  
+    // It provides list of employees in model object    
+    @GetMapping
+    public String findAllComputers(Model model){
+        List<Computer> listComputer = computerService.findAll();
+        nbComputer = computerService.nbComputer();
+        
+        model.addAttribute("listComputer", listComputer);  
+        model.addAttribute("nbComputer", nbComputer);
         return "dashboard";    
     }
     
-    /* It deletes record for the given id in URL and redirects to /viewemp */    
+    // It deletes record for the given id in URL and redirects to /viewemp
     @RequestMapping(value="/deleteComputer/{computer}",method = RequestMethod.GET)    
     public String delete(@PathVariable Computer computer){    
     	computerService.delete(computer);    

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-public class SpringMvcConfig implements WebMvcConfigurer{
+public class SpringMVCConfig implements WebMvcConfigurer{
 	
 	@Bean
     public ViewResolver internalResourceViewResolver() {
@@ -36,7 +36,7 @@ public class SpringMvcConfig implements WebMvcConfigurer{
 	 public CookieLocaleResolver localeResolver(){
 	    CookieLocaleResolver resolver = new CookieLocaleResolver();
 	    resolver.setDefaultLocale(Locale.ENGLISH);
-	    resolver.setCookieName("myCookie");
+	    resolver.setCookieName("locale");
 	    resolver.setCookieMaxAge(3600);
 	    return resolver;
 	 }
@@ -48,6 +48,7 @@ public class SpringMvcConfig implements WebMvcConfigurer{
 	     return localeChangeInterceptor;
 	 }
 	 
+	 @Override
 	 public void addInterceptors(InterceptorRegistry registry) {
 		 registry.addInterceptor(localeChangeInterceptor());
 	 }

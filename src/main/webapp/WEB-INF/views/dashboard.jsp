@@ -12,6 +12,10 @@
 		<style><%@ include file ="../../../css/bootstrap.min.css"%></style>
 		<style><%@ include file ="../../../css/font-awesome.css"%></style>
 		<style><%@ include file ="../../../css/main.css"%></style>
+		
+		<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="screen">
+		<a href="?locale=en"><img style="margin-left: 50px;" src="https://cdn.icon-icons.com/icons2/107/PNG/512/united_kingdom_flag_flags_18060.png" id="drapeau" width="24" height="24" alt="England"> </a>
+		<a href="?locale=fr"><img style="margin-left: 10px;" src="http://www.vogo-group.com/wp-content/uploads/2019/10/france_icon.png" id="drapeau" alt="France" width="24" height="24"></a> 
 	</head>
 
 	<body>
@@ -25,7 +29,7 @@
         	
         	<div class="container">
             	<h1 id="homeTitle">
-                	<c:out value="${nbOfComputer}" /> Computers 
+                	<c:out value="${nbComputer}" /> Computers 
             	</h1>
             
             	<div id="actions" class="form-horizontal">
@@ -69,7 +73,7 @@
                 <!-- Browse attribute computers -->
                 <tbody id="results">
                 
-                	<c:forEach items ="${listOfComputer}" var="computer">
+                	<c:forEach items ="${listComputer}" var="computer">
                 	    <tr>
 	                        <td class="editMode">
 	                            <input type="checkbox" name="cb" class="cb" value="${computer.getId()}">
