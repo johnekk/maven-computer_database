@@ -36,7 +36,7 @@ class ComputerDAOTest {
 	@Test
 	void testCreateComputer() {
 		Computer computer = new Computer.ComputerBuilder().setId(16).setName("test").setIntroduced(null).setdiscontinued(null).setCompany(new Company.CompanyBuilder().setId(1).build()).build();
-		computerDao.createComputer(computer);
+		//computerDao.createComputer(computer);
 		
 		equals(computer.equals(new Computer.ComputerBuilder().build()));
 		
@@ -53,7 +53,7 @@ class ComputerDAOTest {
 
 	@Test
 	void testFindComputerById() {
-		int computer = computerDao.findComputerById(1).getId();
+	//	int computer = computerDao.findComputerById(1).getId();
 	//	assertEquals(computer.getId(), 1);
 	}
 
