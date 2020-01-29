@@ -46,7 +46,7 @@ class ComputerDAOTest {
 	void testFindAllComputers() {
 		int limit = 0;
 		int offset = 0;
-		List<Computer> computers = computerDao.findAllComputers(limit, offset);
+		List<Computer> computers = computerDao.findAllComputers();
 		assertEquals(computers.size(), 15);
 	}
 

@@ -21,8 +21,8 @@ public class ComputerService {
 		computerDAO.createComputer(computer);
 	}
 	
-	public List<Computer> findAll(int limit, int offset) { 
-		return computerDAO.findAllComputers(limit, offset); 
+	public List<Computer> findAll() { 
+		return computerDAO.findAllComputers(); 
 	}
 
 	
@@ -38,7 +38,7 @@ public class ComputerService {
 		computerDAO.updateComputer(computer);
 	}
 	
-	public void delete(Computer computer) {
-		computerDAO.deleteComputer(computer);
+	public void delete(int id) {
+		computerDAO.deleteComputer(id);
 	}
 }

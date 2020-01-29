@@ -1,39 +1,26 @@
 package com.excilys.cdb.pagination;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 @Component
-public class Page<E> {
+public class Page {
 	
-	private int pageID = 1;
-    private int pagesAvailable;
-    private List<E> pageItems = new ArrayList<E>();
+	private int limite = 10;
+	
+	public int getLimite() {
+		return limite;
+	}
 
-    public void setPageID(int pageID) {
-        this.pageID = pageID;
-    }
-
-    public void setPagesAvailable(int pagesAvailable) {
-        this.pagesAvailable = pagesAvailable;
-    }
-
-    public void setPageItems(List<E> pageItems) {
-        this.pageItems = pageItems;
-    }
-
-    public int getPageID() {
-        return pageID;
-    }
-
-    public int getPagesAvailable() {
-        return pagesAvailable;
-    }
-
-    public List<E> getPageItems() {
-        return pageItems;
-    }
+	public void setLimite(int limite) {
+		this.limite = limite;
+	}
+	
+	public int nbPageTotal(int nbComputer) {
+		return (int) Math.ceil(((double) nbComputer / (double) this.limite));
+	}
+	
+	public int calculOffset(int page) {
+		return page * this.limite - this.limite;
+	}
 }
 

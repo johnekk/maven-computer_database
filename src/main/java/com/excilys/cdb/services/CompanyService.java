@@ -1,9 +1,12 @@
 package com.excilys.cdb.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.excilys.cdb.dao.CompanyDAO;
 import com.excilys.cdb.model.Company;
+
 
 @Service
 public class CompanyService {
@@ -14,9 +17,7 @@ public class CompanyService {
 		this.companyDAO = companyDAO;
 	}
 	
-	public void findAllCompanies() {
-        for(Company company : companyDAO.findAllCompanies()) {
-            System.out.println(company.toString());
-        }
+	public List<Company> findAll() { 
+		return companyDAO.findAllCompanies(); 
 	}
 }

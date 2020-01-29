@@ -2,16 +2,36 @@ package com.excilys.cdb.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.excilys.cdb.model.Company;
 
+@Entity
+@Table(name="computer")
 public class Computer {
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name = "";
 	private LocalDate introduced;	
 	private LocalDate discontinued;
+	@OneToOne
+	@JoinColumn(name = "company_id")
 	private Company company;
-
+	
+	public int getId() 					{ return this.id; }
+	public String getName() 			{ return name; }
+	public LocalDate getIntroduced() 	{ return introduced; }
+	public LocalDate getDiscontinued() 	{ return discontinued; }
+	public Company getCompany() 		{ return company; }
+	
 	private Computer(ComputerBuilder builder) {
 		this.id 			= builder.id;
 		this.name 			= builder.name;
@@ -20,23 +40,9 @@ public class Computer {
 		this.company 		= builder.company;
 	}
 	
-	public Computer (int id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
-		this.id 			= id;
-		this.name 			= name;
-		this.introduced 	= introduced;
-		this.discontinued 	= discontinued;
-		this.company 		= company;
-	}
-	
-	public int getId() 					{ return this.id; }
-	public String getName() 			{ return name; }
-	public LocalDate getIntroduced() 	{ return introduced; }
-	public LocalDate getDiscontinued() 	{ return discontinued; }
-	public Company getCompany() 		{ return company; }
-	
 	public static class ComputerBuilder {
 		private int id;
-		private String name = "";
+		private String name;
 		private LocalDate introduced;	
 		private LocalDate discontinued;
 		private Company company;
