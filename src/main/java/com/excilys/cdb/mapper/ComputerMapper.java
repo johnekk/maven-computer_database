@@ -3,7 +3,10 @@ package com.excilys.cdb.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -16,10 +19,14 @@ public class ComputerMapper implements RowMapper<Computer>{
 	
 	public ComputerMapper() {};
 	
-	private  static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+	public static LocalDateTime StringToLocalDateTime(String introduced) {
+		introduced = introduced + " 00:00";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		return LocalDateTime.parse(introduced, formatter);
+	}
 	
-	
-	public static Computer ComputerDTOToComputer(ComputerDTO computerDTO) {
+	public static Computer computerDTOToComputer(ComputerDTO computerDTO) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		String dateStringInt = computerDTO.getIntroduced();
 		LocalDate introduced = dateStringInt.equals("") ? null : LocalDate.parse(dateStringInt, formatter);
 		
@@ -28,7 +35,7 @@ public class ComputerMapper implements RowMapper<Computer>{
 		
 		CompanyDTO companyDTO = computerDTO.getCompanyDTO();
 		
-		Computer computer = new Computer.ComputerBuilder().
+		Computer c = new Computer.ComputerBuilder().
 							setId(computerDTO.getId()).
 							setName(computerDTO.getName()).
 							setIntroduced(introduced).
@@ -37,20 +44,34 @@ public class ComputerMapper implements RowMapper<Computer>{
 										setId(companyDTO.getId()).
 										setName(companyDTO.getName()).build()).
 							build();
-		return computer;
+		return c;
 	}
 	
-	public static ComputerDTO ComputerToComputerDTO(Computer computer) {
+	public static ComputerDTO computerToComputerDTO(Computer computer) {
+		String introducedDate = computer.getIntroduced()!= null ? computer.getIntroduced().toString() : null;
+		String discontinuedDate = computer.getDiscontinued()!= null ? computer.getDiscontinued().toString() : null;
+		
 		ComputerDTO computerDTO = 	new ComputerDTO.ComputerDTOBuilder().
 									id(computer.getId()).
 									name(computer.getName()).
-									introduced(computer.getIntroduced().toString()).
-									discontinued(computer.getDiscontinued().toString()).
+									introduced(introducedDate).
+									discontinued(discontinuedDate).
 									companyDTO(	new CompanyDTO.CompanyDTOBuilder().
 												setId(computer.getCompany().getId()).
 												setName(computer.getCompany().getName()).build()).
 									build();
 		return computerDTO;
+	}
+	
+	public static List<ComputerDTO> listComputerToComputerDTO(List<Computer> list){
+		List<ComputerDTO> listDTO = new ArrayList<ComputerDTO> ();
+		
+		for (Computer computer : list) {
+			listDTO.add(computerToComputerDTO(computer));
+		}
+		
+		return listDTO;
+		
 	}
 
 	@Override

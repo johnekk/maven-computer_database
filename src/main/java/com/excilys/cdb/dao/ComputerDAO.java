@@ -2,12 +2,8 @@ package com.excilys.cdb.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -53,16 +49,12 @@ public class ComputerDAO {
 											+ "	FROM computer"
 											+ "	WHERE id = ?";
 
-	private SessionFactory sessionFactory;
 	
 	public ComputerDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	@PersistenceContext
-	EntityManager entityManager;
-	
-	//Refacto Hibernate
+
 	public boolean createComputer(Computer computer) throws DAOException {
 		return jdbcTemplate.update(CREATE_COMPUTER, computer.getId(),
 													computer.getName(), 
@@ -72,13 +64,9 @@ public class ComputerDAO {
 	}
 
 	public List<Computer> findAllComputers() {
-		Session session = sessionFactory.openSession();
-		List<Computer> listComputer = session.createQuery(FIND_ALL_COMPUTERS, Computer.class).getResultList();
-		
-		return listComputer;
+		return jdbcTemplate.query(FIND_ALL_COMPUTERS, new ComputerMapper());
 	}
 	
-	//Refacto Hibernate
 	public Computer findComputerById(int id) throws DAOException {
 		return jdbcTemplate.queryForObject(FIND_COMPUTER_BY_ID, new Object[] { id }, new ComputerMapper());
 	}
@@ -87,7 +75,7 @@ public class ComputerDAO {
 		return jdbcTemplate.queryForObject(FIND_NUMBER_OF_COMPUTER, Integer.class);
 	}
 
-	//Refacto Hibernate
+
 	public boolean updateComputer(Computer computer) {	
 		return jdbcTemplate.update(UPDATE_COMPUTER, computer.getName(), 
 													computer.getIntroduced(), 
@@ -96,7 +84,7 @@ public class ComputerDAO {
 													computer.getId()) > 0;	
 	}
 
-	//Refacto Hibernate
+
 	public boolean deleteComputer(int id) throws DAOException {
 		return jdbcTemplate.update(DELETE_COMPUTER, id) > 0;
 	}

@@ -2,9 +2,6 @@ package com.excilys.cdb.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 //import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,17 +32,13 @@ public class CompanyDAO {
 											+ "FROM company ca"
 											+ "WHERE id = ?";
 
-	private SessionFactory sessionFactory;
 	
 	public CompanyDAO(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
 	public List<Company> findAllCompanies() throws DAOException {
-		Session session = sessionFactory.openSession();
-		List<Company> listCompany = session.createQuery(FIND_ALL_COMPANIES, Company.class).getResultList();
-		
-		return listCompany;
+		return jdbcTemplate.query(FIND_ALL_COMPANIES, new CompanyMapper());
 	}
 	
 	public Company findById(int id) throws DAOException {

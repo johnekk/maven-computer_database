@@ -16,7 +16,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 
 @Configuration
@@ -60,6 +63,16 @@ public class SpringConfig implements WebApplicationInitializer {
         servlet.addMapping("/");
 	}
 		
+	@Bean
+    public ViewResolver internalResourceViewResolver() {
+      InternalResourceViewResolver bean = new InternalResourceViewResolver();
+      bean.setViewClass(JstlView.class);
+      bean.setPrefix("/WEB-INF/views/");
+      bean.setSuffix(".jsp");
+
+      return bean;
+    }
+	
 	@Bean
     public JdbcTemplate jdbcTemplate() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();

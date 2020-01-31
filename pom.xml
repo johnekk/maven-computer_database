@@ -27,7 +27,10 @@
     <jstl.version>1.2</jstl.version> 
     <HikariCP.version>3.4.0</HikariCP.version>
     <spring.version>5.2.1.RELEASE</spring.version>
-    <hibernate-core>5.4.8.Final</hibernate-core>
+
+    <jackson.version>2.10.1</jackson.version>
+	<spring.security.version>5.2.1.RELEASE</spring.security.version>
+	<swagger.version>2.9.2</swagger.version>
     
   </properties>
 	<!-- END Declaration version of dependencies -->
@@ -161,11 +164,48 @@
 		<version>1.2.3</version>
 	</dependency>
 	
-	 <dependency>
-    	<groupId>org.hibernate</groupId>
-    	<artifactId>hibernate-core</artifactId>
-    	<version>${hibernate-core}</version>
-	</dependency>
+	<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+	
     <!-- END declaration of dependencies -->
   </dependencies>
 

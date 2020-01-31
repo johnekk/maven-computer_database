@@ -2,15 +2,9 @@ package com.excilys.cdb.model;
 
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="company")
 public class Company {
 	
-	@Id
+	
 	private int id;
 	private String name;
 	

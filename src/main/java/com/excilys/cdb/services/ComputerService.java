@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.excilys.cdb.dao.ComputerDAO;
+import com.excilys.cdb.dtos.ComputerDTO;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 
 @Service
@@ -17,12 +19,16 @@ public class ComputerService {
 	}
 	/**END Constructor Spring*/
 	
-	public void create(Computer computer) {
-		computerDAO.createComputer(computer);
+	public boolean create(Computer computer) {
+		return computerDAO.createComputer(computer);
 	}
 	
-	public List<Computer> findAll() { 
-		return computerDAO.findAllComputers(); 
+	
+	public List<Computer> getListComputer() {
+		return computerDAO.findAllComputers();
+	}
+	public List<ComputerDTO> findAll() { 
+		return ComputerMapper.listComputerToComputerDTO(getListComputer()); 
 	}
 
 	
@@ -34,11 +40,11 @@ public class ComputerService {
 		return computerDAO.findComputerById(id);
 	}
 	
-	public void update(Computer computer) { 
-		computerDAO.updateComputer(computer);
+	public boolean update(Computer computer) { 
+		return computerDAO.updateComputer(computer);
 	}
 	
-	public void delete(int id) {
-		computerDAO.deleteComputer(id);
+	public boolean delete(int id) {
+		return computerDAO.deleteComputer(id);
 	}
 }
